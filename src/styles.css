@@ -1,0 +1,179 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   HELLMUTH & RÜHLING — bespoke design system
+   Palette: Ivory · Graphite · Ochre
+   Type: Fraunces (display serif) + Söhne-style grotesque
+   ============================================================ */
+
+@theme inline {
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-sans: "Inter Tight", "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ivory: var(--ivory);
+  --color-bone: var(--bone);
+  --color-graphite: var(--graphite);
+  --color-ink: var(--ink);
+  --color-ochre: var(--ochre);
+  --color-ochre-deep: var(--ochre-deep);
+  --color-rule: var(--rule);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+}
+
+:root {
+  /* Core */
+  --ivory: oklch(0.965 0.012 85);          /* #F4EFE4 warm paper */
+  --bone: oklch(0.928 0.018 82);           /* slightly darker paper */
+  --graphite: oklch(0.22 0.012 250);       /* deep cool graphite */
+  --ink: oklch(0.14 0.01 250);             /* near-black */
+  --ochre: oklch(0.72 0.145 65);           /* mustard ochre */
+  --ochre-deep: oklch(0.58 0.135 55);      /* burnt ochre */
+  --rule: oklch(0.22 0.012 250 / 0.18);
+
+  --background: var(--ivory);
+  --foreground: var(--ink);
+
+  --card: var(--bone);
+  --card-foreground: var(--ink);
+  --popover: var(--ivory);
+  --popover-foreground: var(--ink);
+
+  --primary: var(--graphite);
+  --primary-foreground: var(--ivory);
+  --secondary: var(--bone);
+  --secondary-foreground: var(--graphite);
+  --muted: oklch(0.9 0.015 82);
+  --muted-foreground: oklch(0.42 0.012 250);
+  --accent: var(--ochre);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: var(--ivory);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--ochre);
+
+  --radius: 4px;
+
+  /* Curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+
+  html { background: var(--background); }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--ochre);
+    color: var(--ink);
+  }
+
+  /* Paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(oklch(0.22 0.012 250 / 0.06) 1px, transparent 1px),
+      radial-gradient(oklch(0.22 0.012 250 / 0.04) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 1px;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); font-feature-settings: "ss01","liga","dlig"; }
+  .font-sans-tight { font-family: var(--font-sans); }
+  .font-mono { font-family: var(--font-mono); }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  .rule-h { height: 1px; background: var(--rule); width: 100%; }
+
+  .tracking-micro { letter-spacing: 0.22em; }
+
+  /* Marquee for ticker */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 38s linear infinite; }
+
+  /* Fade up on enter */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-rise { animation: rise 0.9s var(--ease-out-expo) both; }
+
+  /* Word reveal */
+  .word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+  .word-mask > span { display: inline-block; transform: translateY(110%); animation: rise 0.9s var(--ease-out-expo) forwards; }
+
+  /* Underline link */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.6s var(--ease-out-expo);
+  }
+  .link-underline:hover::after { transform-origin: left; transform: scaleX(1); }
+
+  /* Custom number badge */
+  .num-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--muted-foreground);
+  }
+}
