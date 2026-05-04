@@ -14,4 +14,8 @@ if (!rootElement.innerHTML) {
       <RouterProvider router={router} />
     </StrictMode>
   )
+  // Show content after React hydration
+  requestAnimationFrame(() => {
+    rootElement.classList.add('hydrated')
+  })
 }
