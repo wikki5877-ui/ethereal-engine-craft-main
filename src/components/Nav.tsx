@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -29,6 +31,7 @@ export function Nav() {
         backgroundColor: scrolled || open ? "color-mix(in oklab, var(--ivory) 92%, transparent)" : "transparent",
         backdropFilter: scrolled || open ? "blur(14px) saturate(140%)" : "none",
         borderBottom: scrolled || open ? "1px solid var(--rule)" : "1px solid transparent",
+        opacity: mounted ? 1 : 0,
       }}
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-12 h-16 md:h-20 flex items-center justify-between">
@@ -39,7 +42,7 @@ export function Nav() {
           <span className="hidden sm:block num-badge">RECHTSANWÄLTE · LEIPZIG</span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-10" style={{ visibility: mounted ? 'visible' : 'hidden' }}>
           {links.map(([label, href]) => (
             <a key={href} href={href} className="link-underline text-sm tracking-wide text-ink/80 hover:text-ink">
               {label}
@@ -50,6 +53,7 @@ export function Nav() {
         <a
           href="#kontakt"
           className="hidden md:inline-flex group items-center gap-3 border border-ink/80 px-4 py-2 text-xs tracking-micro uppercase hover:bg-ink hover:text-ivory transition-colors duration-500"
+          style={{ visibility: mounted ? 'visible' : 'hidden' }}
         >
           <span className="h-1.5 w-1.5 rounded-full bg-ochre group-hover:bg-ivory transition-colors" />
           Erstgespräch
