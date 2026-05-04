@@ -3,6 +3,12 @@
   "outputDirectory": ".output/public",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": null,
-  "regions": ["fra1"]
+  "framework": "vite",
+  "regions": ["fra1"],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
